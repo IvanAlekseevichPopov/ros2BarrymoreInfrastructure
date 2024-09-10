@@ -1,0 +1,6 @@
+version: '3'
+
+services:
+  ros:
+    build: ./
+    command: ["tail", "-f", "/dev/random"]
