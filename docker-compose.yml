@@ -2,6 +2,9 @@ services:
   master:
     build: ./
     command: ["tail", "-f", "/dev/random"]
+  chassis:
+    build: ./
+    command: [ "tail", "-f", "/dev/random" ]
   rqt:
     build: ./
     environment:
