@@ -2,18 +2,35 @@ services:
   master:
     build: ./
     command: ["tail", "-f", "/dev/random"]
-  chassis:
+#  chassis:
+#    build: ./
+#    command: [ "tail", "-f", "/dev/random" ]
+  tof:
     build: ./
-    command: [ "tail", "-f", "/dev/random" ]
+    command: >
+      bash -c "source /opt/ros/jazzy/setup.bash
+      && tail -f /dev/random"
+    volumes:
+      - ./sipeed_tof:/root/sipeed_tof
   rqt:
     build: ./
     environment:
       - DISPLAY=${DISPLAY}
       - QT_X11_NO_MITSHM=1
-#      - ROS_MASTER_URI=http://master:11311/
     command: >
       bash -c "source /opt/ros/jazzy/setup.bash
       && rqt"
+    volumes:
+      - /tmp/.X11-unix:/tmp/.X11-unix:rw
+      - /dev/dri:/dev/dri
+  rviz:
+    build: ./
+    environment:
+      - DISPLAY=${DISPLAY}
+      - QT_X11_NO_MITSHM=1
+    command: >
+      bash -c "source /opt/ros/jazzy/setup.bash
+      && ros2 run rviz2 rviz2"
     volumes:
       - /tmp/.X11-unix:/tmp/.X11-unix:rw
       - /dev/dri:/dev/dri
