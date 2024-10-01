@@ -1,28 +1,25 @@
 services:
-  master:
-    build: ./
-    command: ["tail", "-f", "/dev/random"]
-#  chassis:
+#  master:
 #    build: ./
-#    command: [ "tail", "-f", "/dev/random" ]
-  tof:
-    build: ./
+#    command: ["tail", "-f", "/dev/random"]
+  camera:
+    build: ./camera
+#    command: ["tail", "-f", "/dev/random"]
     command: >
-      bash -c "source /opt/ros/jazzy/setup.bash
-      && tail -f /dev/random"
-    volumes:
-      - ./sipeed_tof:/root/sipeed_tof
-  rqt:
-    build: ./
-    environment:
-      - DISPLAY=${DISPLAY}
-      - QT_X11_NO_MITSHM=1
-    command: >
-      bash -c "source /opt/ros/jazzy/setup.bash
-      && rqt"
-    volumes:
-      - /tmp/.X11-unix:/tmp/.X11-unix:rw
-      - /dev/dri:/dev/dri
+      bash -c "source /opt/ros/jazzy/setup.bash &&
+      source /MaixSense_ROS/sipeed_tof_ms_a075_ros/ros2/install/setup.sh &&
+      ros2 run sipeed_tof_cpp publisher"
+#  rqt:
+#    build: ./
+#    environment:
+#      - DISPLAY=${DISPLAY}
+#      - QT_X11_NO_MITSHM=1
+#    command: >
+#      bash -c "source /opt/ros/jazzy/setup.bash
+#      && rqt"
+#    volumes:
+#      - /tmp/.X11-unix:/tmp/.X11-unix:rw
+#      - /dev/dri:/dev/dri
   rviz:
     build: ./
     environment:
